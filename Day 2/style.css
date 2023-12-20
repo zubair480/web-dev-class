@@ -1,0 +1,23 @@
+#first{
+    color:blue;
+}
+#second{
+    color:red;
+}
+#third{
+    color: purple;
+}
+
+.p{
+    background-color: blue;
+}
+
+.first-div{
+    background-color:aqua;
+    padding:20px;
+    margin: 20px;
+}
+
+.first-span{
+    font-size: 50px;
+}
