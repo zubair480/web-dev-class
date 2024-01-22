@@ -54,4 +54,102 @@ function secondwebsite_widgets_init() {
 }
 
 
+function test_weather_api() {
+    $api_key = '5e3f6dabb8cf4af28afed754bea69421';
+	$api_key2 = '1011dda4ef8bfa5a4007d4632f3b804d';
+	$cityId = 'London,uk';
+
+
+    
+    $api_endpoint = "http://api.openweathermap.org/data/2.5/weather?q={$cityId}&appid={$api_key2}";
+
+	$url = 'https://api.openweathermap.org/data/2.5/weather?q=Lahore,pk&appid=5e3f6dabb8cf4af28afed754bea69421';
+
+   
+
+    
+    $response = wp_remote_get( $url  ); // [1,2,3]
+	$header = $response['headers']; // array of http header lines
+    $body = $response['body']; // use the content
+    $decoded_response = json_decode($body);
+
+    if ($decoded_response) {
+		// print_r($decoded_response);
+        ?>
+        <div class="weather-info-container">
+            <h2>Weather Information for <?php echo $decoded_response->name; ?></h2>
+
+            <div class="weather-section">
+                <strong>Coord:</strong> <?php echo $decoded_response->coord->lon . ', ' . $decoded_response->coord->lat; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Weather:</strong> <?php echo $decoded_response->weather[0]->main . ' - ' . $decoded_response->weather[0]->description; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Base:</strong> <?php echo $decoded_response->base; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Main:</strong> Temp: <?php echo $decoded_response->main->temp - 273; ?>, Pressure: <?php echo $decoded_response->main->pressure; ?>, Humidity: <?php echo $decoded_response->main->humidity; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Visibility:</strong> <?php echo $decoded_response->visibility; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Wind:</strong> Speed: <?php echo $decoded_response->wind->speed; ?>, Degree: <?php echo $decoded_response->wind->deg; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Clouds:</strong> <?php echo $decoded_response->clouds->all; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Timestamp:</strong> <?php echo $decoded_response->dt; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Sys:</strong> Country: <?php echo $decoded_response->sys->country; ?>, Sunrise: <?php echo $decoded_response->sys->sunrise; ?>, Sunset: <?php echo $decoded_response->sys->sunset; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>City ID:</strong> <?php echo $decoded_response->id; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>City Name:</strong> <?php echo $decoded_response->name; ?>
+            </div>
+
+            <div class="weather-section">
+                <strong>Cod:</strong> <?php echo $decoded_response->cod; ?>
+            </div>
+        </div>
+
+        <style>
+            .weather-info-container {
+                max-width: 600px;
+                margin: 20px auto;
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
+
+            .weather-section {
+                margin-bottom: 10px;
+            }
+        </style>
+        <?php
+    } else {
+        echo 'Error decoding JSON response.';
+    }
+}
+
+add_shortcode( 'weather', 'test_weather_api' );
+
+
+
 ?>

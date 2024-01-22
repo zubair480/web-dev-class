@@ -30,6 +30,7 @@ wp_nav_menu( array(
 </section>
 
 <hr>
+<?php do_shortcode('[weather]') ?>
 
 <?php
 if ( have_posts() ) :
